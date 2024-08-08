@@ -1,4 +1,4 @@
-name: workshop
+name: workshop_${ENV}
 services:
   mongodb:
     image: mongo:latest
