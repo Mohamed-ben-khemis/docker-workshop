@@ -1,0 +1,47 @@
+name: workshop
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - private
+
+  api:
+    build: ./api
+    container_name: api
+    ports:
+      - $PORT:$PORT
+    depends_on:
+      - mongodb
+    env_file:
+      - ./api/.env
+    networks:
+      - public
+      - private
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5555/healthcheck"]
+      interval: 5s
+      retries: 5
+      start_period: 5s
+      timeout: 5s
+
+  ui:
+    build: ./ui
+    container_name: ui
+    ports:
+      - "3000:80"
+    depends_on:
+      - api
+    networks:
+      - public
+
+volumes:
+  mongodb_data:
+
+networks:
+  public:
+  private:
