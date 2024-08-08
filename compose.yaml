@@ -5,8 +5,8 @@ services:
     container_name: mongodb
     ports:
       - "27017:27017"
-    volumes:
-      - mongodb_data:/data/db
+    # volumes:
+    #   - mongodb_data:/data/db
     networks:
       - private
 
@@ -39,8 +39,8 @@ services:
     networks:
       - public
 
-volumes:
-  mongodb_data:
+# volumes:
+#   mongodb_data:
 
 networks:
   public:
